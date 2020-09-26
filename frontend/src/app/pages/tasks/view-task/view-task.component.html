@@ -1,0 +1,112 @@
+<nav class="navbar" role="navigation" aria-label="main navigation">
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a routerLink="/users" class="navbar-item">
+        Usuários
+      </a>
+
+      <a routerLink="/lists" class="navbar-item">
+        Lista de Atividades
+      </a>
+
+      <a routerLink="/aggregate" class="navbar-item">
+        Aggregate
+      </a>
+
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <a (click)="handleLogout()"><i class="fas fa-sign-out-alt"></i></a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="centered-content">
+  <div class="task-manager-container">
+    <div class="sidebar">
+      <h1 class="title has-text-primary">
+        Listas
+      </h1>
+
+      <div class="list-menu">
+        <a class="list-menu-item" *ngFor="let list of lists" [routerLink]="['/lists', list._id]" routerLinkActive="is-active">
+          <p>{{ list.title }}</p>
+        </a>
+
+      </div>
+
+      <button class="button" routerLink="/new-list"><i class="fas fa-tasks"></i>&nbsp;Nova Lista</button>
+
+    </div>
+
+    <div class="task-list-container has-background-light">
+      <div *ngIf="tasks">
+        <div class="top-bar">
+          <h1 class="title has-text-primary">
+            Atividades
+          </h1>
+          <div class="dropdown is-hoverable is-right">
+            <div class="dropdown-trigger">
+              <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
+                <span class="icon is-small">
+                  <i class="fas fa-cog" aria-hidden="true"></i>
+                </span>
+              </button>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+              <div class="dropdown-content">
+                <a [routerLink]="['/edit-list', selectedListId]" class="dropdown-item">
+                  Editar
+                </a>
+                <a (click)="handleDeleteList()" class="dropdown-item has-text-danger">
+                  Apagar
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="task" *ngFor="let task of tasks" (click)="handleTaskCompleteChange(task)" [ngClass]="{ 'completed': task.completed }">
+          <div class="task-text">
+            <p>{{ task.title }}</p>
+          </div>
+
+          <div class="task-buttons">
+
+            <button class="button" [routerLink]="['/lists', selectedListId, 'edit-task', task._id]">
+              <div class="icon">
+                <i class="fas fa-edit"></i>
+              </div>
+            </button>
+
+            <button class="button is-danger" (click)="handleDeleteTask(task._id)">
+              <div class="icon">
+                <i class="fas fa-trash"></i>
+              </div>
+            </button>
+
+          </div>
+
+        </div>
+
+        <h3 class="empty-state-text" *ngIf="tasks.length === 0">
+          Nenhuma atividade cadastrada nesta lista até o momento.
+        </h3>
+
+        <button routerLink="./new-task" class="circle-add-button button is-primary">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+
+      <div *ngIf="!tasks">
+        <h3 class="empty-state-text">
+          Selecione ou crie um lista.
+        </h3>
+      </div>
+
+    </div>
+  </div>
+</div>

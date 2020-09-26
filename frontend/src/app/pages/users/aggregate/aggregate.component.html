@@ -1,0 +1,87 @@
+<nav class="navbar" role="navigation" aria-label="main navigation">
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a routerLink="/users" class="navbar-item">
+        Usuários
+      </a>
+
+      <a routerLink="/lists" class="navbar-item">
+        Lista de Atividades
+      </a>
+
+      <a routerLink="/aggregate" class="navbar-item">
+        Aggregate
+      </a>
+
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <a (click)="handleLogout()"><i class="fas fa-sign-out-alt"></i></a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="centered-content">
+  <div class="task-manager-container">
+    <div class="sidebar">
+      <h1 class="title has-text-primary">
+        Filtro
+      </h1>
+
+      <div class="list-menu">
+
+        <div class="field">
+          <label class="label">Idade Maior que:</label>
+          <div class="control has-icons-left has-icons-right">
+            <input #biggerInput class="input is-small" type="text" placeholder="Idade Maior que" value="18">
+            <span class="icon is-small is-left">
+              <i class="fas fa-birthday-cake"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Idade Menor que:</label>
+          <div class="control has-icons-left has-icons-right">
+            <input #lessInput class="input is-small" type="text" placeholder="Idade Maior que" value="60">
+            <span class="icon is-small is-left">
+              <i class="fas fa-birthday-cake"></i>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <button class="button" (click)="handleFilterAggregate(biggerInput.value, lessInput.value)"><i class="fas fa-search"></i>&nbsp;Buscar</button>
+
+    </div>
+
+    <div class="task-list-container has-background-light">
+
+      <table class="table" *ngIf="users">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Idade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td>{{ user.name }}</td>
+            <td>{{ user.age }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="!users">
+        <h3 class="empty-state-text">
+          Filtre os usuários pela idade.
+        </h3>
+      </div>
+
+    </div>
+  </div>
+</div>

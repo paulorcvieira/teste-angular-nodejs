@@ -1,0 +1,133 @@
+<nav class="navbar" role="navigation" aria-label="main navigation">
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a routerLink="/users" class="navbar-item">
+        Usuários
+      </a>
+
+      <a routerLink="/lists" class="navbar-item">
+        Lista de Atividades
+      </a>
+
+      <a routerLink="/aggregate" class="navbar-item">
+        Aggregate
+      </a>
+
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <a (click)="handleLogout()"><i class="fas fa-sign-out-alt"></i></a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="centered-content">
+  <div class="task-manager-container">
+    <div class="sidebar">
+      <h1 class="title has-text-primary">
+        Usuários
+      </h1>
+
+      <div class="field">
+        <div class="control has-icons-right">
+          <input class="input is-small" type="text" placeholder="Nome" (keyup)="handleFilterUser($event.target.value)">
+          <span class="icon is-small is-right">
+            <i class="fas fa-search"></i>
+          </span>
+        </div>
+      </div>
+
+      <div class="list-menu">
+        <a class="list-menu-item" *ngFor="let user of users" [routerLink]="['/users', user._id]" routerLinkActive="is-active">
+          <p>{{ user.name }}</p>
+        </a>
+
+      </div>
+
+      <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        <a class="pagination-previous" (click)="handlePaginateUsers(1)">Anterior</a>
+        <a class="pagination-next" (click)="handlePaginateUsers(2)">Próximo</a>
+      </nav>
+
+      <button class="button" routerLink="/new-user"><i class="fas fa-user"></i>&nbsp;Novo Usuário</button>
+
+    </div>
+
+    <div class="task-list-container has-background-light">
+      <div *ngIf="user">
+        <div class="top-bar">
+          <h1 class="title has-text-primary">
+            Detalhes {{ user.name }}
+          </h1>
+
+          <div class="dropdown is-hoverable is-right">
+            <div class="dropdown-trigger">
+              <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
+                <span class="icon is-small">
+                  <i class="fas fa-cog" aria-hidden="true"></i>
+                </span>
+              </button>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+              <div class="dropdown-content">
+                <a (click)="handleDeleteUser()" class="dropdown-item has-text-danger">
+                  Apagar
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Nome</label>
+          <div class="control has-icons-left has-icons-right">
+            <input #userNameInput class="input has-background-light is-medium" type="text" placeholder="Nome" value="{{ user.name }}">
+            <span class="icon is-small is-left">
+              <i class="fas fa-user"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Idade</label>
+          <div class="control has-icons-left has-icons-right">
+            <input #userAgeInput class="input has-background-light is-medium" type="text" placeholder="Idade" value="{{ user.age }}">
+            <span class="icon is-small is-left">
+              <i class="fas fa-birthday-cake"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Email</label>
+          <div class="control has-icons-left has-icons-right">
+            <input #userEmailInput class="input has-background-light is-medium" type="email" placeholder="Email" value="{{ user.email }}">
+            <span class="icon is-small is-left">
+              <i class="fas fa-envelope"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="field" style="display: flex; justify-content: flex-end;">
+          <div class="control">
+            <button class="button is-primary has-text-white" (click)="handleUpdateUser(userNameInput.value, userAgeInput.value, userEmailInput.value)">
+              Alterar
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <div *ngIf="!user">
+        <h3 class="empty-state-text">
+          Selecione ou crie um usuário.
+        </h3>
+      </div>
+
+    </div>
+  </div>
+
+</div>
